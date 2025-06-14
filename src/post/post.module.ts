@@ -8,10 +8,9 @@ import { PostService } from './post.service';
 import { PostController } from './post.controller';
 import { TagModule } from '../tag/tag.module';
 import { NotificationModule } from '../notification/notification.module';
-import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [CqrsModule, UserModule, TagModule, NotificationModule],
+  imports: [CqrsModule, TagModule, NotificationModule],
   providers: [
     PostRepository,
     CreatePostHandler,

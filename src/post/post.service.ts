@@ -3,16 +3,15 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreatePostCommand } from './commands/create-post.command';
 import { Post } from './entities/post.entity';
 import { GetPostsByUserQuery } from './queries/get-posts-by-user.query';
-import { UserService } from '../user/user.service';
 import { TagService } from '../tag/tag.service';
 import { NotificationService } from '../notification/notification.service';
+import { CheckUserPermissionQuery } from '../user/queries/check-user-permission.query';
 
 @Injectable()
 export class PostService {
   constructor(
     private commandBus: CommandBus,
     private queryBus: QueryBus,
-    private readonly userService: UserService,
     private readonly tagService: TagService,
     private readonly notificationService: NotificationService,
   ) {}
@@ -25,7 +24,7 @@ export class PostService {
     content: string,
     tags: string[],
   ): Promise<void> {
-    await this.userService.checkPermission(userId);
+    await this.queryBus.execute(new CheckUserPermissionQuery(userId));
 
     const post: Post = await this.commandBus.execute(
       new CreatePostCommand(id, userId, authorName, title, content),

@@ -6,6 +6,7 @@ import { GetUsersHandler } from './handlers/get-users.handler';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UpdateUserNameHandler } from './handlers/update-user-name.handler';
+import { CheckUserPermissionHandler } from './handlers/check-user-permission.handler';
 
 @Module({
   imports: [CqrsModule],
@@ -15,8 +16,8 @@ import { UpdateUserNameHandler } from './handlers/update-user-name.handler';
     GetUsersHandler,
     UserService,
     UpdateUserNameHandler,
+    CheckUserPermissionHandler,
   ],
   controllers: [UserController],
-  exports: [UserService],
 })
 export class UserModule {}
