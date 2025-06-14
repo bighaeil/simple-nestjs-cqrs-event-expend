@@ -7,9 +7,9 @@ import { Post } from '../entities/post.entity';
 export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
   constructor(private readonly postRepository: PostRepository) {}
 
-  async execute(command: CreatePostCommand): Promise<void> {
+  async execute(command: CreatePostCommand): Promise<Post> {
     const { id, userId, authorName, title, content } = command;
     const post = new Post(id, userId, authorName, title, content);
-    this.postRepository.createPost(post);
+    return await this.postRepository.createPost(post);
   }
 }

@@ -23,4 +23,10 @@ export class UserService {
   async getUsers(): Promise<User[]> {
     return this.queryBus.execute(new GetUsersQuery());
   }
+
+  async checkPermission(userId: string) {
+    if (userId !== '1') {
+      throw new Error('Permission denied');
+    }
+  }
 }

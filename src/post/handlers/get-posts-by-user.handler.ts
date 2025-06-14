@@ -10,6 +10,6 @@ export class GetPostsByUserHandler
   constructor(private readonly postRepository: PostRepository) {}
 
   async execute(query: GetPostsByUserQuery): Promise<Post[]> {
-    return this.postRepository.findByUserId(query.userId);
+    return await this.postRepository.findByUserId(query.userId);
   }
 }

@@ -17,5 +17,6 @@ import { UpdateUserNameHandler } from './handlers/update-user-name.handler';
     UpdateUserNameHandler,
   ],
   controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}

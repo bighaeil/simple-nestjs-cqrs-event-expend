@@ -8,8 +8,8 @@ export class UpdatePostAuthorHandler
 {
   constructor(private readonly postRepository: PostRepository) {}
 
-  handle(event: UserNameUpdatedEvent): void {
+  async handle(event: UserNameUpdatedEvent): Promise<void> {
     const { userId, newName } = event;
-    this.postRepository.updateUserNameInPosts(userId, newName);
+    await this.postRepository.updateUserNameInPosts(userId, newName);
   }
 }

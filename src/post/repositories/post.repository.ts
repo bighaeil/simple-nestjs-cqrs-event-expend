@@ -5,11 +5,12 @@ import { Post } from '../entities/post.entity';
 export class PostRepository {
   private posts: Post[] = [];
 
-  createPost(post: Post): void {
+  async createPost(post: Post): Promise<Post> {
     this.posts.push(post);
+    return post;
   }
 
-  updateUserNameInPosts(userId: string, newName: string): void {
+  async updateUserNameInPosts(userId: string, newName: string): Promise<void> {
     this.posts.forEach((post) => {
       if (post.userId === userId) {
         post.authorName = newName;
@@ -17,11 +18,11 @@ export class PostRepository {
     });
   }
 
-  findByUserId(userId: string): Post[] {
+  async findByUserId(userId: string): Promise<Post[]> {
     return this.posts.filter((post) => post.userId === userId);
   }
 
-  findAll(): Post[] {
+  async findAll(): Promise<Post[]> {
     return this.posts;
   }
 }

@@ -14,6 +14,7 @@ export class PostController {
       authorName: string;
       title: string;
       content: string;
+      tags: string[];
     },
   ) {
     return this.postService.createPost(
@@ -22,6 +23,7 @@ export class PostController {
       body.authorName,
       body.title,
       body.content,
+      body.tags,
     );
   }
 
