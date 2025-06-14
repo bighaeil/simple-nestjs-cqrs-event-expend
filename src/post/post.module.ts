@@ -6,11 +6,9 @@ import { GetPostsByUserHandler } from './handlers/get-posts-by-user.handler';
 import { CreatePostHandler } from './handlers/create-post.handler';
 import { PostService } from './post.service';
 import { PostController } from './post.controller';
-import { TagModule } from '../tag/tag.module';
-import { NotificationModule } from '../notification/notification.module';
 
 @Module({
-  imports: [CqrsModule, TagModule, NotificationModule],
+  imports: [CqrsModule],
   providers: [
     PostRepository,
     CreatePostHandler,

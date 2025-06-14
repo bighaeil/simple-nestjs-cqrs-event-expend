@@ -3,17 +3,15 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreatePostCommand } from './commands/create-post.command';
 import { Post } from './entities/post.entity';
 import { GetPostsByUserQuery } from './queries/get-posts-by-user.query';
-import { TagService } from '../tag/tag.service';
-import { NotificationService } from '../notification/notification.service';
 import { CheckUserPermissionQuery } from '../user/queries/check-user-permission.query';
+import { ConnectTagsCommand } from '../tag/commands/connect-tags.command';
+import { SendNotificationCommand } from '../notification/commands/send-notification.command';
 
 @Injectable()
 export class PostService {
   constructor(
     private commandBus: CommandBus,
     private queryBus: QueryBus,
-    private readonly tagService: TagService,
-    private readonly notificationService: NotificationService,
   ) {}
 
   async createPost(
@@ -30,12 +28,20 @@ export class PostService {
       new CreatePostCommand(id, userId, authorName, title, content),
     );
 
-    const connectedTags = await this.tagService.createOrConnectTags(
-      tags,
-      post.id,
+    const connectedTags: string[] = await this.commandBus.execute(
+      new ConnectTagsCommand(tags, post.id),
     );
 
-    await this.notificationService.sendIfNeeded(post, connectedTags);
+    this.commandBus.execute(
+      new SendNotificationCommand(
+        post.id,
+        userId,
+        authorName,
+        title,
+        content,
+        connectedTags,
+      ),
+    );
   }
 
   async getPostsByUser(userId: string): Promise<Post[]> {
