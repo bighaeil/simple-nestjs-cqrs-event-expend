@@ -36,7 +36,14 @@ export class PostService {
       post.id,
     );
 
-    await this.notificationService.sendIfNeeded(post, connectedTags);
+    await this.notificationService.sendIfNeeded({
+      postId: post.id,
+      userId,
+      authorName,
+      title,
+      content,
+      tags: connectedTags,
+    });
   }
 
   async getPostsByUser(userId: string): Promise<Post[]> {
